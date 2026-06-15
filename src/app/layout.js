@@ -1,4 +1,5 @@
 import { Bricolage_Grotesque, Hanken_Grotesk, Space_Mono } from "next/font/google";
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({
@@ -32,7 +33,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
-      <body className="bg-ink text-mist antialiased font-sans">{children}</body>
+      <body className="bg-ink text-mist antialiased font-sans">
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }

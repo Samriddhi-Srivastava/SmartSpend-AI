@@ -1,0 +1,304 @@
+"use client";
+
+import { useState } from "react";
+import { Save, Lock, Bell, Palette, LogOut } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+
+/**
+ * Settings Page
+ * 
+ * Route: /dashboard/settings
+ * 
+ * Features:
+ * - Profile settings
+ * - Password change
+ * - Notification preferences
+ * - Theme preferences
+ * - Account management
+ */
+
+export default function SettingsPage() {
+    const router = useRouter();
+    const { user, logout } = useAuth();
+    const [saved, setSaved] = useState(false);
+
+    const [profile, setProfile] = useState({
+        name: user?.name || "Samriddhis Srivastava",
+        email: user?.email || "you@example.com",
+        phone: "+91 98765 43210",
+        currency: "INR",
+    });
+
+    const [notifications, setNotifications] = useState({
+        expenseReminders: true,
+        budgetAlerts: true,
+        weeklyReport: true,
+        aiInsights: true,
+        settleReminders: true,
+        emailUpdates: false,
+    });
+
+    const [theme, setTheme] = useState("dark");
+
+    const handleProfileChange = (field, value) => {
+        setProfile((prev) => ({ ...prev, [field]: value }));
+        setSaved(false);
+    };
+
+    const handleNotificationChange = (field) => {
+        setNotifications((prev) => ({ ...prev, [field]: !prev[field] }));
+    };
+
+    const handleSaveProfile = () => {
+        // API call would go here
+        console.log("Saving profile:", profile);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+    };
+
+    const handleLogout = () => {
+        logout();
+        router.push("/");
+    };
+
+    return (
+        <div className="p-6 sm:p-8 space-y-8 max-w-2xl">
+            {/* Header */}
+            <div>
+                <h1 className="font-display text-3xl font-bold text-mist">Settings</h1>
+                <p className="text-muted mt-2">Manage your account and preferences</p>
+            </div>
+
+            {/* Profile Settings */}
+            <div className="glass rounded-xl border border-white/[0.08] p-6">
+                <h2 className="text-lg font-semibold text-mist mb-4">
+                    Profile Information
+                </h2>
+
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-sm text-muted mb-2">Full Name</label>
+                        <input
+                            type="text"
+                            value={profile.name}
+                            onChange={(e) => handleProfileChange("name", e.target.value)}
+                            className="w-full bg-white/5 border border-line rounded-lg px-3 py-2 text-mist focus:outline-none focus:ring-2 focus:ring-sage/50"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-muted mb-2">Email</label>
+                        <input
+                            type="email"
+                            value={profile.email}
+                            onChange={(e) => handleProfileChange("email", e.target.value)}
+                            className="w-full bg-white/5 border border-line rounded-lg px-3 py-2 text-mist focus:outline-none focus:ring-2 focus:ring-sage/50"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-muted mb-2">Phone</label>
+                        <input
+                            type="tel"
+                            value={profile.phone}
+                            onChange={(e) => handleProfileChange("phone", e.target.value)}
+                            className="w-full bg-white/5 border border-line rounded-lg px-3 py-2 text-mist focus:outline-none focus:ring-2 focus:ring-sage/50"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-muted mb-2">Currency</label>
+                        <select
+                            value={profile.currency}
+                            onChange={(e) => handleProfileChange("currency", e.target.value)}
+                            className="w-full bg-white/5 border border-line rounded-lg px-3 py-2 text-mist focus:outline-none focus:ring-2 focus:ring-sage/50"
+                        >
+                            <option value="INR">Indian Rupee (₹)</option>
+                            <option value="USD">US Dollar ($)</option>
+                            <option value="EUR">Euro (€)</option>
+                            <option value="GBP">British Pound (£)</option>
+                        </select>
+                    </div>
+
+                    <div className="flex gap-3 pt-4">
+                        <button
+                            onClick={handleSaveProfile}
+                            className="flex items-center gap-2 bg-sage hover:bg-sage-deep text-ink font-semibold px-6 py-2 rounded-lg transition"
+                        >
+                            <Save size={18} />
+                            Save Changes
+                        </button>
+                        {saved && (
+                            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-sage/20 text-sage text-sm">
+                                ✓ Saved successfully!
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Notification Settings */}
+            <div className="glass rounded-xl border border-white/[0.08] p-6">
+                <h2 className="text-lg font-semibold text-mist mb-4 flex items-center gap-2">
+                    <Bell size={20} className="text-sage" />
+                    Notifications
+                </h2>
+
+                <div className="space-y-4">
+                    {Object.entries(notifications).map(([key, value]) => {
+                        const labels = {
+                            expenseReminders: "Expense Reminders",
+                            budgetAlerts: "Budget Alerts",
+                            weeklyReport: "Weekly Report",
+                            aiInsights: "AI Insights",
+                            settleReminders: "Settle Reminders",
+                            emailUpdates: "Email Updates",
+                        };
+
+                        return (
+                            <div key={key} className="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition">
+                                <div>
+                                    <p className="font-medium text-mist">{labels[key]}</p>
+                                    <p className="text-sm text-muted">
+                                        {key === "expenseReminders" && "Get reminded when you add expenses"}
+                                        {key === "budgetAlerts" && "Alerts when you exceed budget"}
+                                        {key === "weeklyReport" && "Summary of your weekly spending"}
+                                        {key === "aiInsights" && "AI tips to improve spending"}
+                                        {key === "settleReminders" && "Reminders to settle group expenses"}
+                                        {key === "emailUpdates" && "Important account updates via email"}
+                                    </p>
+                                </div>
+
+                                <label className="relative inline-block w-12 h-6 bg-white/10 rounded-full cursor-pointer border border-line">
+                                    <input
+                                        type="checkbox"
+                                        checked={value}
+                                        onChange={() => handleNotificationChange(key)}
+                                        className="sr-only"
+                                    />
+                                    <div
+                                        className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full transition ${value ? "bg-sage translate-x-6" : "bg-muted"
+                                            }`}
+                                    />
+                                </label>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Theme Settings */}
+            <div className="glass rounded-xl border border-white/[0.08] p-6">
+                <h2 className="text-lg font-semibold text-mist mb-4 flex items-center gap-2">
+                    <Palette size={20} className="text-sage" />
+                    Appearance
+                </h2>
+
+                <div className="space-y-3">
+                    {["light", "dark", "auto"].map((themeOption) => (
+                        <label
+                            key={themeOption}
+                            className="flex items-center p-3 rounded-lg border cursor-pointer transition hover:bg-white/5"
+                            style={{
+                                borderColor:
+                                    theme === themeOption ? "#7FD1A6" : "rgba(255,255,255,0.1)",
+                                backgroundColor:
+                                    theme === themeOption ? "rgba(127,209,166,0.1)" : "transparent",
+                            }}
+                        >
+                            <input
+                                type="radio"
+                                name="theme"
+                                value={themeOption}
+                                checked={theme === themeOption}
+                                onChange={(e) => setTheme(e.target.value)}
+                                className="w-4 h-4"
+                            />
+                            <span className="ml-3 font-medium text-mist capitalize">
+                                {themeOption === "auto" ? "Auto (System)" : themeOption}
+                            </span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            {/* Security */}
+            <div className="glass rounded-xl border border-white/[0.08] p-6">
+                <h2 className="text-lg font-semibold text-mist mb-4 flex items-center gap-2">
+                    <Lock size={20} className="text-sage" />
+                    Security
+                </h2>
+
+                <div className="space-y-3">
+                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
+                        <span className="font-medium text-mist">Change Password</span>
+                        <span className="text-muted">→</span>
+                    </button>
+
+                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
+                        <span className="font-medium text-mist">Enable 2FA</span>
+                        <span className="text-sage text-sm">Recommended</span>
+                    </button>
+
+                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
+                        <span className="font-medium text-mist">View Devices</span>
+                        <span className="text-muted">→</span>
+                    </button>
+                </div>
+            </div>
+
+            {/* Account Management */}
+            <div className="glass rounded-xl border border-white/[0.08] p-6">
+                <h2 className="text-lg font-semibold text-mist mb-4">Account</h2>
+
+                <div className="space-y-3">
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 justify-center bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 font-semibold px-4 py-3 rounded-lg transition"
+                    >
+                        <LogOut size={18} />
+                        Logout
+                    </button>
+
+                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition border border-red-500/30">
+                        <span className="font-medium text-red-400">Delete Account</span>
+                        <span className="text-muted">→</span>
+                    </button>
+                </div>
+
+                <p className="text-xs text-muted mt-4">
+                    Account deletion is permanent and cannot be undone. All your data will be erased.
+                </p>
+            </div>
+
+            {/* Help & Support */}
+            <div className="glass rounded-xl border border-white/[0.08] p-6">
+                <h2 className="text-lg font-semibold text-mist mb-4">Help & Support</h2>
+
+                <div className="space-y-3">
+                    <a href="#" className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
+                        <span className="font-medium text-mist">Documentation</span>
+                        <span className="text-muted">→</span>
+                    </a>
+
+                    <a href="#" className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
+                        <span className="font-medium text-mist">FAQ</span>
+                        <span className="text-muted">→</span>
+                    </a>
+
+                    <a href="#" className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
+                        <span className="font-medium text-mist">Contact Support</span>
+                        <span className="text-muted">→</span>
+                    </a>
+                </div>
+            </div>
+
+            {/* About */}
+            <div className="text-center text-sm text-muted border-t border-line pt-6">
+                <p>SmartSpend AI v1.0.0</p>
+                <p className="mt-1">© 2024 SmartSpend. All rights reserved.</p>
+            </div>
+        </div>
+    );
+}
