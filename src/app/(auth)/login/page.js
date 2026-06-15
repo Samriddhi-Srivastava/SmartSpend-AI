@@ -31,7 +31,7 @@ export default function LoginPage() {
                     <button
                         onClick={handleGoogleLogin}
                         disabled={loading}
-                        className="w-full bg-white hover:bg-white/90 disabled:opacity-50 text-ink font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2"
+                        className="w-full bg-black hover:bg-white/10 disabled:opacity-50 text-ink font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24">
                             <path
