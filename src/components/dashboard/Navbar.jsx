@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, Search, Bell } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { useSession } from "next-auth/react";
 
 /**
  * Dashboard Navbar
@@ -21,7 +21,7 @@ import { useAuth } from "@/context/AuthContext";
  */
 
 export default function DashboardNavbar({ toggleSidebar }) {
-  const { user } = useAuth();
+  const { data: session } = useSession();
 
   return (
     <header className="h-16 border-b border-line bg-ink-soft/50 backdrop-blur sticky top-0 z-40 flex items-center justify-between px-6">
@@ -56,13 +56,13 @@ export default function DashboardNavbar({ toggleSidebar }) {
         <div className="flex items-center gap-3 pl-4 border-l border-line">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-medium text-mist">
-              {user?.name?.split(" ")[0] || "User"}
+              {session?.user?.name?.split(" ")[0] || "User"}
             </p>
-            <p className="text-xs text-muted">{user?.email}</p>
+            <p className="text-xs text-muted">{session?.user?.email}</p>
           </div>
           <div className="w-10 h-10 rounded-full bg-sage/20 border border-sage/30 flex items-center justify-center">
             <span className="text-sage font-semibold">
-              {user?.name?.[0] || user?.email?.[0] || "U"}
+              {session?.user?.name?.[0] || session?.user?.email?.[0] || "U"}
             </span>
           </div>
         </div>

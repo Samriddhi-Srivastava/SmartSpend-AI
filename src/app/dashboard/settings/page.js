@@ -1,31 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Save, Lock, Bell, Palette, LogOut } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-/**
- * Settings Page
- * 
- * Route: /dashboard/settings
- * 
- * Features:
- * - Profile settings
- * - Password change
- * - Notification preferences
- * - Theme preferences
- * - Account management
- */
+import { Save, Lock, Bell, Palette, LogOut } from "lucide-react";
 
 export default function SettingsPage() {
     const router = useRouter();
-    const { user, logout } = useAuth();
+    const { data: session } = useSession();
     const [saved, setSaved] = useState(false);
 
     const [profile, setProfile] = useState({
-        name: user?.name || "Samriddhis Srivastava",
-        email: user?.email || "you@example.com",
+        name: session?.user?.name || "User",
+        email: session?.user?.email || "user@example.com",
         phone: "+91 98765 43210",
         currency: "INR",
     });
@@ -51,15 +38,13 @@ export default function SettingsPage() {
     };
 
     const handleSaveProfile = () => {
-        // API call would go here
         console.log("Saving profile:", profile);
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
     };
 
-    const handleLogout = () => {
-        logout();
-        router.push("/");
+    const handleLogout = async () => {
+        await signOut({ redirect: true, callbackUrl: "/" });
     };
 
     return (
@@ -223,31 +208,6 @@ export default function SettingsPage() {
                 </div>
             </div>
 
-            {/* Security */}
-            <div className="glass rounded-xl border border-white/[0.08] p-6">
-                <h2 className="text-lg font-semibold text-mist mb-4 flex items-center gap-2">
-                    <Lock size={20} className="text-sage" />
-                    Security
-                </h2>
-
-                <div className="space-y-3">
-                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
-                        <span className="font-medium text-mist">Change Password</span>
-                        <span className="text-muted">→</span>
-                    </button>
-
-                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
-                        <span className="font-medium text-mist">Enable 2FA</span>
-                        <span className="text-sage text-sm">Recommended</span>
-                    </button>
-
-                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
-                        <span className="font-medium text-mist">View Devices</span>
-                        <span className="text-muted">→</span>
-                    </button>
-                </div>
-            </div>
-
             {/* Account Management */}
             <div className="glass rounded-xl border border-white/[0.08] p-6">
                 <h2 className="text-lg font-semibold text-mist mb-4">Account</h2>
@@ -260,44 +220,7 @@ export default function SettingsPage() {
                         <LogOut size={18} />
                         Logout
                     </button>
-
-                    <button className="w-full flex items-center justify-between p-3 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition border border-red-500/30">
-                        <span className="font-medium text-red-400">Delete Account</span>
-                        <span className="text-muted">→</span>
-                    </button>
                 </div>
-
-                <p className="text-xs text-muted mt-4">
-                    Account deletion is permanent and cannot be undone. All your data will be erased.
-                </p>
-            </div>
-
-            {/* Help & Support */}
-            <div className="glass rounded-xl border border-white/[0.08] p-6">
-                <h2 className="text-lg font-semibold text-mist mb-4">Help & Support</h2>
-
-                <div className="space-y-3">
-                    <a href="#" className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
-                        <span className="font-medium text-mist">Documentation</span>
-                        <span className="text-muted">→</span>
-                    </a>
-
-                    <a href="#" className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
-                        <span className="font-medium text-mist">FAQ</span>
-                        <span className="text-muted">→</span>
-                    </a>
-
-                    <a href="#" className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition border border-line">
-                        <span className="font-medium text-mist">Contact Support</span>
-                        <span className="text-muted">→</span>
-                    </a>
-                </div>
-            </div>
-
-            {/* About */}
-            <div className="text-center text-sm text-muted border-t border-line pt-6">
-                <p>SmartSpend AI v1.0.0</p>
-                <p className="mt-1">© 2024 SmartSpend. All rights reserved.</p>
             </div>
         </div>
     );

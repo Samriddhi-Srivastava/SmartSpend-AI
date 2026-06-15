@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "@/context/AuthContext"; 
-import { useRouter } from "next/navigation";   
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sparkles, LogOut } from "lucide-react";
 
@@ -14,8 +14,8 @@ const links = [
 ];
 
 export default function Navbar() {
+  const { data: session } = useSession();
   const router = useRouter();
-  const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export default function Navbar() {
    * If not logged in: go to signup
    */
   const handleGetStarted = () => {
-    if (user) {
+    if (session) {
       router.push("/dashboard");
     } else {
       router.push("/signup");
@@ -41,11 +41,10 @@ export default function Navbar() {
 
   /**
    * Handle logout
-   * Clear auth and redirect home
+   * Sign out using NextAuth
    */
-  const handleLogout = () => {
-    logout();
-    router.push("/");
+  const handleLogout = async () => {
+    await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   return (
@@ -85,12 +84,12 @@ export default function Navbar() {
 
         {/* Desktop buttons - Change based on auth state */}
         <div className="hidden items-center gap-3 md:flex">
-          {user ? (
+          {session ? (
             <>
               {/* User is logged in */}
               <div className="flex items-center gap-3 border-l border-line pl-3">
                 <span className="text-sm text-muted">
-                  {user.name || user.email}
+                  {session.user?.name || session.user?.email}
                 </span>
                 <button
                   onClick={handleLogout}
@@ -157,12 +156,12 @@ export default function Navbar() {
             ))}
 
             {/* Mobile buttons - Change based on auth state */}
-            {user ? (
+            {session ? (
               <>
                 {/* User is logged in */}
                 <div className="mt-4 space-y-2 border-t border-line pt-4">
                   <p className="px-3 text-xs text-muted">
-                    {user.name || user.email}
+                    {session.user?.name || session.user?.email}
                   </p>
                   <button
                     onClick={() => {
@@ -174,8 +173,8 @@ export default function Navbar() {
                     Go to Dashboard
                   </button>
                   <button
-                    onClick={() => {
-                      handleLogout();
+                    onClick={async () => {
+                      await handleLogout();
                       setOpen(false);
                     }}
                     className="flex items-center justify-center w-full gap-2 rounded-full bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-3 font-medium transition"

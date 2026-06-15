@@ -1,5 +1,5 @@
 import { Bricolage_Grotesque, Hanken_Grotesk, Space_Mono } from "next/font/google";
-import { AuthProvider } from "@/context/AuthContext";
+import { Providers } from "@/app/providers";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({
@@ -25,8 +25,10 @@ const mono = Space_Mono({
 
 export const metadata = {
   title: "SmartSpend AI — Your money, finally understood",
-  description:
-    "SmartSpend AI tracks every rupee, reads your habits, and tells you exactly what to do next. The AI finance assistant for students and young professionals.",
+  description: "SmartSpend AI tracks every rupee, reads your habits, and tells you exactly what to do next. The AI finance assistant for students and young professionals.",
+};
+
+export const viewport = {
   themeColor: "#0C1116",
 };
 
@@ -34,9 +36,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-ink text-mist antialiased font-sans">
-        <AuthProvider>
+        <Providers>
           {children}
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

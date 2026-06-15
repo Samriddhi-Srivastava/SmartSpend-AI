@@ -14,7 +14,7 @@ import {
   ChevronRight,
   LogOut,
 } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 /**
@@ -85,13 +85,11 @@ const navigationItems = [
 export default function DashboardSidebar({ open, setOpen }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout } = useAuth();
+  const { data: session } = useSession();
 
-  const handleLogout = () => {
-    logout();
-    router.push("/");
-  };
-
+const handleLogout = async () => {
+  await signOut({ redirect: true, callbackUrl: "/" });
+};
   return (
     <>
       {/* Sidebar */}
@@ -159,7 +157,7 @@ export default function DashboardSidebar({ open, setOpen }) {
           {open && (
             <div className="px-3 py-2 text-xs text-muted">
               <p className="font-medium text-mist mb-1">
-                {user?.name || user?.email || "User"}
+                {session?.user?.name || session?.user?.email || "User"}
               </p>
               
             </div>
