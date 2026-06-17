@@ -13,13 +13,14 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Sparkles,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 /**
  * Dashboard Sidebar
- * 
+ *
  * Left navigation menu for dashboard
  * Shows all available pages:
  * - Dashboard (home)
@@ -29,7 +30,7 @@ import { useRouter } from "next/navigation";
  * - AI Chat
  * - Health Score
  * - Settings
- * 
+ *
  * Features:
  * - Active page highlighting
  * - Collapsible on mobile
@@ -87,9 +88,9 @@ export default function DashboardSidebar({ open, setOpen }) {
   const router = useRouter();
   const { data: session } = useSession();
 
-const handleLogout = async () => {
-  await signOut({ redirect: true, callbackUrl: "/" });
-};
+  const handleLogout = async () => {
+    await signOut({ redirect: true, callbackUrl: "/" });
+  };
   return (
     <>
       {/* Sidebar */}
@@ -103,7 +104,7 @@ const handleLogout = async () => {
           {open && (
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-sage flex items-center justify-center text-ink font-bold">
-                $
+                <Sparkles size={16} />
               </div>
               <span className="font-display font-bold text-mist text-sm">
                 SmartSpend
@@ -159,7 +160,6 @@ const handleLogout = async () => {
               <p className="font-medium text-mist mb-1">
                 {session?.user?.name || session?.user?.email || "User"}
               </p>
-              
             </div>
           )}
 
