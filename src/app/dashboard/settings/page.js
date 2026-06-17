@@ -174,41 +174,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Theme Settings */}
-      <div className="glass rounded-xl border border-white/[0.08] dark:border-slate-700 p-6">
-        <h2 className="text-lg font-semibold text-mist dark:text-slate-100 mb-4 flex items-center gap-2">
-          <Palette size={20} className="text-sage" />
-          Appearance
-        </h2>
-
-        <div className="space-y-3">
-          {["light", "dark", "auto"].map((themeOption) => (
-            <label
-              key={themeOption}
-              className="flex items-center p-3 rounded-lg border cursor-pointer transition hover:bg-white/5 dark:hover:bg-slate-800/50"
-              style={{
-                borderColor:
-                  theme === themeOption ? "#7FD1A6" : "rgba(255,255,255,0.1)",
-                backgroundColor:
-                  theme === themeOption ? "rgba(127,209,166,0.1)" : "transparent",
-              }}
-            >
-              <input
-                type="radio"
-                name="theme"
-                value={themeOption}
-                checked={theme === themeOption}
-                onChange={(e) => setTheme(e.target.value)}
-                className="w-4 h-4"
-              />
-              <span className="ml-3 font-medium text-mist dark:text-slate-100 capitalize">
-                {themeOption === "auto" ? "Auto (System)" : themeOption}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
       {/* Account Management */}
       <div className="glass rounded-xl border border-white/[0.08] dark:border-slate-700 p-6">
         <h2 className="text-lg font-semibold text-mist dark:text-slate-100 mb-4">Account</h2>

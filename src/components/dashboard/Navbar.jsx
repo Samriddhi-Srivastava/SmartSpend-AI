@@ -6,7 +6,7 @@ import ThemeToggle from "./ThemeToggle";
 
 /**
  * Dashboard Navbar
- * 
+ *
  * Top bar in dashboard with:
  * - Hamburger menu (mobile)
  * - Search bar
@@ -34,7 +34,7 @@ export default function DashboardNavbar({ toggleSidebar }) {
           <input
             type="text"
             placeholder="Search expenses..."
-            className="bg-transparent text-mist dark:text-slate-100 placeholder:text-muted/50 dark:placeholder:text-slate-500 outline-none flex-1 text-sm"
+            className="bg-transparent text-mist dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-muted/50 outline-none flex-1 text-sm"
           />
         </div>
       </div>
@@ -56,7 +56,9 @@ export default function DashboardNavbar({ toggleSidebar }) {
             <p className="text-sm font-medium text-mist dark:text-slate-100">
               {session?.user?.name?.split(" ")[0] || "User"}
             </p>
-            <p className="text-xs text-muted dark:text-slate-400">{session?.user?.email}</p>
+            <p className="text-xs text-muted dark:text-slate-400">
+              {session?.user?.email}
+            </p>
           </div>
           <div className="w-10 h-10 rounded-full bg-sage/20 dark:bg-sage/10 border border-sage/30 dark:border-sage/20 flex items-center justify-center">
             <span className="text-sage font-semibold">
