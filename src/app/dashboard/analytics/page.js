@@ -1,285 +1,222 @@
 "use client";
 
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { TrendingUp, Target, AlertCircle } from "lucide-react";
-
-/**
- * Analytics Page
- * 
- * Route: /dashboard/analytics
- * 
- * Features:
- * - Monthly spending trend
- * - Category breakdown pie chart
- * - Spending patterns
- * - Budget vs actual
- * - AI insights
- * 
- * Uses Recharts for data visualization
- */
-
-const monthlyData = [
-    { month: "Jan", spent: 8500, budget: 10000 },
-    { month: "Feb", spent: 7200, budget: 10000 },
-    { month: "Mar", spent: 9100, budget: 10000 },
-    { month: "Apr", spent: 8800, budget: 10000 },
-    { month: "May", spent: 10200, budget: 10000 },
-    { month: "Jun", spent: 8920, budget: 10000 },
-];
+import { useState } from "react";
+import { BarChart2, TrendingUp, PieChart, Calendar } from "lucide-react";
+import { PieChart as RechartsPie, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from "recharts";
 
 const categoryData = [
-    { name: "Food", value: 2450, color: "#7FD1A6" },
-    { name: "Transport", value: 1800, color: "#F0C088" },
-    { name: "Entertainment", value: 1200, color: "#8B9A93" },
-    { name: "Utilities", value: 1500, color: "#E8EEEA" },
-    { name: "Shopping", value: 980, color: "#121A21" },
-    { name: "Health", value: 990, color: "#16202A" },
+  { name: "Food", value: 4500, color: "#7FD1A6" },
+  { name: "Transport", value: 2000, color: "#F0C088" },
+  { name: "Shopping", value: 3200, color: "#60A5FA" },
+  { name: "Bills", value: 1800, color: "#F87171" },
+  { name: "Entertainment", value: 1200, color: "#A78BFA" },
+];
+
+const monthlyData = [
+  { month: "Jan", income: 25000, expenses: 18000 },
+  { month: "Feb", income: 25000, expenses: 21000 },
+  { month: "Mar", income: 27000, expenses: 19000 },
+  { month: "Apr", income: 25000, expenses: 22000 },
+  { month: "May", income: 28000, expenses: 20000 },
+  { month: "Jun", income: 25000, expenses: 17000 },
+];
+
+const trendData = [
+  { day: "Mon", amount: 850 },
+  { day: "Tue", amount: 1200 },
+  { day: "Wed", amount: 600 },
+  { day: "Thu", amount: 1800 },
+  { day: "Fri", amount: 2200 },
+  { day: "Sat", amount: 1500 },
+  { day: "Sun", amount: 900 },
 ];
 
 export default function AnalyticsPage() {
-    const totalSpent = monthlyData.reduce((sum, m) => sum + m.spent, 0);
-    const avgSpent = Math.round(totalSpent / monthlyData.length);
-    const maxSpent = Math.max(...monthlyData.map((m) => m.spent));
+  const [period, setPeriod] = useState("monthly");
 
-    return (
-        <div className="p-6 sm:p-8 space-y-8">
-            {/* Header */}
-            <div>
-                <h1 className="font-display text-3xl font-bold text-mist">
-                    Analytics & Insights
-                </h1>
-                <p className="text-muted mt-2">
-                    Understand your spending patterns
-                </p>
-            </div>
-
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="glass rounded-xl p-6 border border-white/[0.08]">
-                    <div className="flex items-start justify-between mb-4">
-                        <div>
-                            <p className="text-sm text-muted mb-1">Average Monthly</p>
-                            <p className="text-2xl font-bold text-mist">₹{avgSpent.toLocaleString()}</p>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-sage/20 text-sage">
-                            <TrendingUp size={20} />
-                        </div>
-                    </div>
-                    <p className="text-sm text-muted">Last 6 months</p>
-                </div>
-
-                <div className="glass rounded-xl p-6 border border-white/[0.08]">
-                    <div className="flex items-start justify-between mb-4">
-                        <div>
-                            <p className="text-sm text-muted mb-1">Highest Month</p>
-                            <p className="text-2xl font-bold text-amber">₹{maxSpent.toLocaleString()}</p>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-amber/20 text-amber">
-                            <AlertCircle size={20} />
-                        </div>
-                    </div>
-                    <p className="text-sm text-muted">May 2024</p>
-                </div>
-
-                <div className="glass rounded-xl p-6 border border-white/[0.08]">
-                    <div className="flex items-start justify-between mb-4">
-                        <div>
-                            <p className="text-sm text-muted mb-1">This Month Target</p>
-                            <p className="text-2xl font-bold text-sage">₹1,080</p>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-sage/20 text-sage">
-                            <Target size={20} />
-                        </div>
-                    </div>
-                    <p className="text-sm text-muted">Budget remaining</p>
-                </div>
-            </div>
-
-            {/* Charts Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Monthly Trend */}
-                <div className="lg:col-span-2 glass rounded-xl p-6 border border-white/[0.08]">
-                    <h2 className="text-lg font-semibold text-mist mb-6">
-                        Spending Trend
-                    </h2>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={monthlyData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                            <XAxis dataKey="month" stroke="#8B9A93" />
-                            <YAxis stroke="#8B9A93" />
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: "#16202A",
-                                    border: "1px solid #222",
-                                    borderRadius: "8px",
-                                }}
-                                labelStyle={{ color: "#E8EEEA" }}
-                            />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="spent"
-                                stroke="#7FD1A6"
-                                strokeWidth={2}
-                                dot={{ fill: "#7FD1A6", r: 4 }}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="budget"
-                                stroke="#8B9A93"
-                                strokeWidth={2}
-                                strokeDasharray="5 5"
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                </div>
-
-                {/* Category Breakdown */}
-                <div className="glass rounded-xl p-6 border border-white/[0.08]">
-                    <h2 className="text-lg font-semibold text-mist mb-6">
-                        By Category
-                    </h2>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <PieChart>
-                            <Pie
-                                data={categoryData}
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={60}
-                                outerRadius={100}
-                                paddingAngle={2}
-                                dataKey="value"
-                            >
-                                {categoryData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.color} />
-                                ))}
-                            </Pie>
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: "#16202A",
-                                    border: "1px solid #222",
-                                    borderRadius: "8px",
-                                }}
-                                labelStyle={{ color: "#E8EEEA" }}
-                            />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-            </div>
-
-            {/* Bar Chart - Budget vs Actual */}
-            <div className="glass rounded-xl p-6 border border-white/[0.08]">
-                <h2 className="text-lg font-semibold text-mist mb-6">
-                    Budget vs Actual Spending
-                </h2>
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={monthlyData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                        <XAxis dataKey="month" stroke="#8B9A93" />
-                        <YAxis stroke="#8B9A93" />
-                        <Tooltip
-                            contentStyle={{
-                                backgroundColor: "#16202A",
-                                border: "1px solid #222",
-                                borderRadius: "8px",
-                            }}
-                            labelStyle={{ color: "#E8EEEA" }}
-                        />
-                        <Legend />
-                        <Bar dataKey="budget" fill="#8B9A93" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="spent" fill="#7FD1A6" radius={[8, 8, 0, 0]} />
-                    </BarChart>
-                </ResponsiveContainer>
-            </div>
-
-            {/* Category Breakdown Table */}
-            <div className="glass rounded-xl border border-white/[0.08] overflow-hidden">
-                <div className="p-6 border-b border-line">
-                    <h2 className="text-lg font-semibold text-mist">
-                        Category Breakdown
-                    </h2>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead>
-                            <tr className="border-b border-line">
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-muted uppercase">
-                                    Category
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-muted uppercase">
-                                    Amount
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-muted uppercase">
-                                    % of Total
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-muted uppercase">
-                                    Trend
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {categoryData.map((cat) => {
-                                const percentage = (
-                                    (cat.value /
-                                        categoryData.reduce((sum, c) => sum + c.value, 0)) *
-                                    100
-                                ).toFixed(1);
-                                return (
-                                    <tr
-                                        key={cat.name}
-                                        className="border-b border-line hover:bg-white/5 transition"
-                                    >
-                                        <td className="px-6 py-4">
-                                            <p className="font-medium text-mist">{cat.name}</p>
-                                        </td>
-                                        <td className="px-6 py-4 text-mist font-semibold">
-                                            ₹{cat.value.toLocaleString()}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-32 h-2 bg-white/10 rounded-full overflow-hidden">
-                                                    <div
-                                                        className="h-full rounded-full"
-                                                        style={{
-                                                            width: `${percentage}%`,
-                                                            backgroundColor: cat.color,
-                                                        }}
-                                                    />
-                                                </div>
-                                                <span className="text-sm text-muted">{percentage}%</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-sage text-sm font-medium">
-                                            ↓ -5%
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            {/* AI Insights */}
-            <div className="glass rounded-xl p-6 border border-amber/20 bg-amber/5">
-                <h3 className="text-lg font-semibold text-amber mb-4">
-                    💡 Smart Insights
-                </h3>
-                <div className="space-y-3 text-sm text-muted">
-                    <p>
-                        ✓ Your spending has decreased by 12% compared to last month
-                    </p>
-                    <p>
-                        ✓ Food is your highest spending category at 27.5% of total expenses
-                    </p>
-                    <p>
-                        ✓ You're 8% under budget this month (₹1,080 remaining)
-                    </p>
-                    <p>
-                        ✓ Your most expensive day was June 8th with ₹1,450 in transactions
-                    </p>
-                </div>
-            </div>
+  return (
+    <div className="p-6 sm:p-8 space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-3xl font-bold text-mist dark:text-slate-100">
+            Analytics
+          </h1>
+          <p className="text-muted dark:text-slate-400 mt-1">
+            Deep insights into your spending patterns
+          </p>
         </div>
-    );
+
+        {/* Period Filter */}
+        <div className="flex bg-white/5 dark:bg-slate-800 rounded-lg p-1 border border-line dark:border-slate-700">
+          {["weekly", "monthly", "yearly"].map((p) => (
+            <button
+              key={p}
+              onClick={() => setPeriod(p)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition capitalize ${
+                period === p
+                  ? "bg-sage text-ink"
+                  : "text-muted dark:text-slate-400 hover:text-mist dark:hover:text-slate-100"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { label: "Total Spent", value: "₹12,700", change: "+8%", up: true },
+          { label: "Avg Daily", value: "₹423", change: "-3%", up: false },
+          { label: "Top Category", value: "Food", change: "₹4,500", up: true },
+          { label: "Saved", value: "₹7,300", change: "+12%", up: false },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="glass rounded-xl border border-white/[0.08] dark:border-slate-700 p-4"
+          >
+            <p className="text-xs text-muted dark:text-slate-400">{stat.label}</p>
+            <p className="text-xl font-bold text-mist dark:text-slate-100 mt-1">{stat.value}</p>
+            <p className={`text-xs mt-1 ${stat.up ? "text-sage" : "text-amber"}`}>
+              {stat.change}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Category Pie Chart */}
+        <div className="glass rounded-xl border border-white/[0.08] dark:border-slate-700 p-6">
+          <h2 className="text-lg font-semibold text-mist dark:text-slate-100 mb-6 flex items-center gap-2">
+            <PieChart size={20} className="text-sage" />
+            Spending by Category
+          </h2>
+          <div className="flex items-center gap-6">
+            <ResponsiveContainer width="50%" height={200}>
+              <RechartsPie>
+                <Pie
+                  data={categoryData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={50}
+                  outerRadius={80}
+                  paddingAngle={3}
+                  dataKey="value"
+                >
+                  {categoryData.map((entry, index) => (
+                    <Cell key={index} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value) => [`₹${value}`, "Amount"]}
+                  contentStyle={{
+                    background: "#121A21",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: "8px",
+                    color: "#E8EEEA",
+                  }}
+                />
+              </RechartsPie>
+            </ResponsiveContainer>
+            <div className="flex-1 space-y-2">
+              {categoryData.map((cat) => (
+                <div key={cat.name} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: cat.color }}
+                    />
+                    <span className="text-sm text-muted dark:text-slate-400">{cat.name}</span>
+                  </div>
+                  <span className="text-sm font-medium text-mist dark:text-slate-100">
+                    ₹{cat.value.toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Income vs Expenses Bar Chart */}
+        <div className="glass rounded-xl border border-white/[0.08] dark:border-slate-700 p-6">
+          <h2 className="text-lg font-semibold text-mist dark:text-slate-100 mb-6 flex items-center gap-2">
+            <BarChart2 size={20} className="text-sage" />
+            Income vs Expenses
+          </h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={monthlyData}>
+              <XAxis
+                dataKey="month"
+                tick={{ fill: "#8B9A93", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fill: "#8B9A93", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={(v) => `₹${v / 1000}k`}
+              />
+              <Tooltip
+                formatter={(value) => [`₹${value.toLocaleString()}`, ""]}
+                contentStyle={{
+                  background: "#121A21",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "8px",
+                  color: "#E8EEEA",
+                }}
+              />
+              <Bar dataKey="income" fill="#7FD1A6" radius={[4, 4, 0, 0]} name="Income" />
+              <Bar dataKey="expenses" fill="#F0C088" radius={[4, 4, 0, 0]} name="Expenses" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Weekly Trend */}
+        <div className="glass rounded-xl border border-white/[0.08] dark:border-slate-700 p-6 lg:col-span-2">
+          <h2 className="text-lg font-semibold text-mist dark:text-slate-100 mb-6 flex items-center gap-2">
+            <TrendingUp size={20} className="text-sage" />
+            Weekly Spending Trend
+          </h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={trendData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+              <XAxis
+                dataKey="day"
+                tick={{ fill: "#8B9A93", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fill: "#8B9A93", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={(v) => `₹${v}`}
+              />
+              <Tooltip
+                formatter={(value) => [`₹${value}`, "Spent"]}
+                contentStyle={{
+                  background: "#121A21",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "8px",
+                  color: "#E8EEEA",
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="amount"
+                stroke="#7FD1A6"
+                strokeWidth={2}
+                dot={{ fill: "#7FD1A6", strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
 }

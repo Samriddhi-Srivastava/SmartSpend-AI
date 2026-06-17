@@ -14,10 +14,15 @@ const links = [
 ];
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -26,11 +31,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /**
-   * Handle Get Started button click
-   * If logged in: go to dashboard
-   * If not logged in: go to signup
-   */
   const handleGetStarted = () => {
     if (session) {
       router.push("/dashboard");
@@ -39,13 +39,32 @@ export default function Navbar() {
     }
   };
 
-  /**
-   * Handle logout
-   * Sign out using NextAuth
-   */
   const handleLogout = async () => {
     await signOut({ redirect: true, callbackUrl: "/" });
   };
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-0 left-0 right-0 z-50"
+      >
+        <div className="mx-auto flex max-w-container items-center justify-between px-5 py-4 sm:px-8">
+          <a href="/" className="flex items-center gap-2">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-sage/15 text-sage">
+              <Sparkles size={16} />
+            </span>
+            <span className="font-display text-lg font-bold tracking-tight text-mist dark:text-slate-100">
+              SmartSpend<span className="text-sage"> AI</span>
+            </span>
+          </a>
+        </div>
+      </motion.header>
+    );
+  }
 
   return (
     <motion.header
@@ -64,7 +83,7 @@ export default function Navbar() {
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-sage/15 text-sage">
             <Sparkles size={16} />
           </span>
-          <span className="font-display text-lg font-bold tracking-tight text-mist">
+          <span className="font-display text-lg font-bold tracking-tight text-mist dark:text-slate-100">
             SmartSpend<span className="text-sage"> AI</span>
           </span>
         </a>
@@ -75,32 +94,33 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted transition-colors hover:text-mist"
+              className="text-sm text-muted dark:text-slate-400 transition-colors hover:text-mist dark:hover:text-slate-100"
             >
               {l.label}
             </a>
           ))}
         </nav>
 
-        {/* Desktop buttons - Change based on auth state */}
+        {/* Desktop buttons */}
         <div className="hidden items-center gap-3 md:flex">
-          {session ? (
+          {status === "loading" ? (
+            <div className="h-8 w-24 bg-white/10 rounded-full animate-pulse" />
+          ) : session ? (
             <>
-              {/* User is logged in */}
-              <div className="flex items-center gap-3 border-l border-line pl-3">
-                <span className="text-sm text-muted">
+              <div className="flex items-center gap-3 border-l border-line dark:border-slate-700 pl-3">
+                <span className="text-sm text-muted dark:text-slate-400">
                   {session.user?.name || session.user?.email}
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 rounded-full bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 text-sm font-medium transition"
+                  className="flex items-center gap-2 rounded-full bg-red-500/10 dark:bg-red-500/5 hover:bg-red-500/20 dark:hover:bg-red-500/10 text-red-400 px-4 py-2 text-sm font-medium transition"
                 >
                   <LogOut size={16} />
                   Logout
                 </button>
                 <button
                   onClick={() => router.push("/dashboard")}
-                  className="rounded-full bg-sage px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
+                  className="rounded-full bg-sage dark:bg-sage/80 hover:bg-sage-deep dark:hover:bg-sage px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
                 >
                   Dashboard
                 </button>
@@ -108,16 +128,15 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              {/* User is not logged in */}
               <a
                 href="/login"
-                className="text-sm text-muted transition-colors hover:text-mist"
+                className="text-sm text-muted dark:text-slate-400 transition-colors hover:text-mist dark:hover:text-slate-100"
               >
                 Log in
               </a>
               <button
                 onClick={handleGetStarted}
-                className="rounded-full bg-sage px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
+                className="rounded-full bg-sage dark:bg-sage/80 hover:bg-sage-deep dark:hover:bg-sage px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
               >
                 Get started
               </button>
@@ -129,7 +148,7 @@ export default function Navbar() {
         <button
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
-          className="text-mist md:hidden"
+          className="text-mist dark:text-slate-100 md:hidden"
         >
           {open ? <X /> : <Menu />}
         </button>
@@ -149,18 +168,18 @@ export default function Navbar() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-3 text-mist hover:bg-white/5"
+                className="block rounded-lg px-3 py-3 text-mist dark:text-slate-100 hover:bg-white/5 dark:hover:bg-slate-800/50"
               >
                 {l.label}
               </a>
             ))}
 
-            {/* Mobile buttons - Change based on auth state */}
-            {session ? (
+            {status === "loading" ? (
+              <div className="mt-4 h-8 bg-white/10 rounded-lg animate-pulse" />
+            ) : session ? (
               <>
-                {/* User is logged in */}
-                <div className="mt-4 space-y-2 border-t border-line pt-4">
-                  <p className="px-3 text-xs text-muted">
+                <div className="mt-4 space-y-2 border-t border-line dark:border-slate-700 pt-4">
+                  <p className="px-3 text-xs text-muted dark:text-slate-400">
                     {session.user?.name || session.user?.email}
                   </p>
                   <button
@@ -168,7 +187,7 @@ export default function Navbar() {
                       router.push("/dashboard");
                       setOpen(false);
                     }}
-                    className="w-full rounded-full bg-sage px-4 py-3 text-center font-semibold text-ink transition-transform hover:scale-[1.03]"
+                    className="w-full rounded-full bg-sage dark:bg-sage/80 px-4 py-3 text-center font-semibold text-ink transition-transform hover:scale-[1.03]"
                   >
                     Go to Dashboard
                   </button>
@@ -177,7 +196,7 @@ export default function Navbar() {
                       await handleLogout();
                       setOpen(false);
                     }}
-                    className="flex items-center justify-center w-full gap-2 rounded-full bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-3 font-medium transition"
+                    className="flex items-center justify-center w-full gap-2 rounded-full bg-red-500/10 dark:bg-red-500/5 hover:bg-red-500/20 dark:hover:bg-red-500/10 text-red-400 px-4 py-3 font-medium transition"
                   >
                     <LogOut size={16} />
                     Logout
@@ -186,11 +205,10 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                {/* User is not logged in */}
-                <a
+               <a 
                   href="/login"
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-3 text-mist hover:bg-white/5"
+                  className="block rounded-lg px-3 py-3 text-mist dark:text-slate-100 hover:bg-white/5 dark:hover:bg-slate-800/50"
                 >
                   Log in
                 </a>
@@ -199,7 +217,7 @@ export default function Navbar() {
                     handleGetStarted();
                     setOpen(false);
                   }}
-                  className="mt-2 w-full rounded-full bg-sage px-4 py-3 text-center font-semibold text-ink transition-transform hover:scale-[1.03]"
+                  className="mt-2 w-full rounded-full bg-sage dark:bg-sage/80 px-4 py-3 text-center font-semibold text-ink transition-transform hover:scale-[1.03]"
                 >
                   Get started
                 </button>

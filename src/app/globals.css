@@ -1,7 +1,20 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --bg: #0c1116;
+  /* light theme */
+  --bg: #f5f8f6;
+  /* soft warm-cool off-white */
+  --text: #16202a;
+  /* deep ink for body text */
+  color-scheme: light dark;
+}
+
+html.dark {
+  --bg: #0f172a;
+  --text: #f1f5f9;
 }
 
 * {
@@ -15,41 +28,66 @@ html {
 
 body {
   background-color: var(--bg);
-  color: #e8eeea;
+  color: var(--text);
   font-family: var(--font-body), sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* selection */
+/* selection — dark text in light mode, light text in dark mode */
 ::selection {
+  background: rgba(127, 209, 166, 0.3);
+  color: #16202a;
+}
+
+html.dark ::selection {
   background: rgba(127, 209, 166, 0.25);
   color: #fff;
 }
 
 /* ---------- Reusable visual utilities ---------- */
 
-/* Gradient text used on accent words */
+/* Gradient text — works on both themes since accents are mid-tone */
 .text-gradient {
+  background: linear-gradient(100deg, #4faf82 0%, #7fd1a6 45%, #d99a4e 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.dark .text-gradient {
   background: linear-gradient(100deg, #7fd1a6 0%, #b9e6cf 45%, #f0c088 110%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Subtle hairline border with inner glow on cards */
+/* Glass cards — light theme: white card with soft shadow-like border */
 .glass {
   background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      rgba(255, 255, 255, 0.015) 100%);
-  border: 1px solid rgba(232, 238, 234, 0.09);
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.7) 100%);
+  border: 1px solid rgba(22, 32, 42, 0.08);
   backdrop-filter: blur(10px);
+}
+
+html.dark .glass {
+  background: linear-gradient(180deg,
+      rgba(148, 163, 184, 0.08) 0%,
+      rgba(148, 163, 184, 0.03) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 /* faint dotted grid background */
 .grid-bg {
-  background-image: radial-gradient(rgba(232, 238, 234, 0.05) 1px,
+  background-image: radial-gradient(rgba(22, 32, 42, 0.06) 1px,
       transparent 1px);
   background-size: 28px 28px;
+}
+
+html.dark .grid-bg {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.1) 1px,
+      transparent 1px);
 }
 
 /* ---------- Ambient animations ---------- */
@@ -128,7 +166,6 @@ body {
   pointer-events: none;
 }
 
-/* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -139,4 +176,8 @@ body {
   .orb {
     animation: none !important;
   }
+}
+
+* {
+  @apply transition-colors duration-300;
 }

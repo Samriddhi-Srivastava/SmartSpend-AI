@@ -26,17 +26,17 @@ export default function CTA() {
 
       <Reveal className="relative mx-auto max-w-container px-5 sm:px-8">
         <div className="text-center">
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-mist mb-6">
+          <h2 className="font-display text-4xl sm:text-5xl font-bold text-mist dark:text-slate-100 mb-6">
             Ready to take control?
           </h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto mb-10">
+          <p className="text-lg text-muted dark:text-slate-400 max-w-2xl mx-auto mb-10">
             Join thousands of students and young professionals who are already
             making smarter financial decisions with SmartSpend AI.
           </p>
 
           <button
             onClick={handleGetStarted}
-            className="group inline-flex items-center gap-2 rounded-full bg-sage px-8 py-4 font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-95"
+            className="group inline-flex items-center gap-2 rounded-full bg-sage dark:bg-sage/80 hover:bg-sage-deep dark:hover:bg-sage px-8 py-4 font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-95"
           >
             Get started free
             <ArrowRight
@@ -45,7 +45,7 @@ export default function CTA() {
             />
           </button>
 
-          <p className="text-sm text-muted mt-6">
+          <p className="text-sm text-muted dark:text-slate-400 mt-6">
             No credit card required. Start tracking today.
           </p>
         </div>

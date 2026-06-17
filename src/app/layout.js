@@ -25,7 +25,7 @@ const mono = Space_Mono({
 
 export const metadata = {
   title: "SmartSpend AI — Your money, finally understood",
-  description: "SmartSpend AI tracks every rupee, reads your habits, and tells you exactly what to do next. The AI finance assistant for students and young professionals.",
+  description: "SmartSpend AI tracks every rupee, reads your habits, and tells you exactly what to do next.",
 };
 
 export const viewport = {
@@ -35,7 +35,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
-      <body className="bg-ink text-mist antialiased font-sans">
+      <body className="bg-ink dark:bg-slate-950 text-mist dark:text-slate-100 antialiased font-body transition-colors duration-300">
         <Providers>
           {children}
         </Providers>
