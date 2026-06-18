@@ -22,7 +22,12 @@ function Ring({ score = 72 }) {
 
   return (
     <div ref={ref} className="relative grid place-items-center">
-      <svg width="220" height="220" viewBox="0 0 200 200" className="-rotate-90">
+      <svg
+        width="220"
+        height="220"
+        viewBox="0 0 200 200"
+        className="-rotate-90"
+      >
         <circle
           cx="100"
           cy="100"
@@ -72,12 +77,12 @@ export default function HealthScore() {
                 Financial health score
               </p>
               <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-mist sm:text-5xl">
-                One number that tells you where you stand.
+                One number that tells you where you stand
               </h2>
               <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
                 We combine your savings rate, spending control, debt and
                 recurring costs into a single score — then show you the exact
-                levers to pull to raise it.
+                levers to pull to raise it
               </p>
 
               <div className="mt-8 space-y-4">

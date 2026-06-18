@@ -36,11 +36,11 @@ export default function AIShowcase() {
             <Sparkles size={15} /> AI assistant
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-mist sm:text-5xl">
-            Ask your money anything.
+            Ask your money anything!
           </h2>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
-            No spreadsheets, no jargon. Just ask a question in plain language and
-            get a clear, personalised answer grounded in your real spending.
+            No spreadsheets, no jargon. Just ask a question in plain language
+            and get a clear, personalised answer grounded in your real spending
           </p>
 
           <div className="mt-8 flex flex-wrap gap-2.5">

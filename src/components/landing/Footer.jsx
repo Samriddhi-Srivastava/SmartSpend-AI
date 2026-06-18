@@ -5,15 +5,11 @@ import { Sparkles } from "lucide-react";
 const cols = [
   {
     title: "Product",
-    links: ["Features", "AI assistant", "Health score", "Pricing"],
+    links: ["Features", "AI assistant", "Health score"],
   },
   {
     title: "Company",
-    links: ["About", "Blog", "Careers", "Contact"],
-  },
-  {
-    title: "Legal",
-    links: ["Privacy", "Terms", "Security"],
+    links: ["About us", "Blog", "Contact"],
   },
 ];
 
@@ -33,7 +29,7 @@ export default function Footer() {
             </div>
             <p className="mt-4 max-w-xs text-sm text-muted">
               The AI finance assistant that helps you spend smart and stress
-              less.
+              less
             </p>
           </div>
 
@@ -57,8 +53,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row">
-          <span>© {new Date().getFullYear()} SmartSpend AI. All rights reserved.</span>
-          <span>Built as a final-year project — designed to feel like a product.</span>
+          <span>
+            © {new Date().getFullYear()} SmartSpend AI. All rights reserved.
+          </span>
         </div>
       </div>
     </footer>

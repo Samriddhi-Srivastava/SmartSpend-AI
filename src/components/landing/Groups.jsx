@@ -61,7 +61,7 @@ export default function Groups() {
               className="mt-5 flex items-center gap-2 rounded-xl border border-sage/20 bg-sage/[0.06] px-4 py-3 text-sm text-mist"
             >
               <Check size={16} className="text-sage" />
-              Simplified to <b className="text-sage">2 payments</b> instead of 4.
+              Simplified to <b className="text-sage">2 payments</b> instead of 4
             </motion.div>
           </div>
         </Reveal>
@@ -72,12 +72,12 @@ export default function Groups() {
             Shared finances
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-mist sm:text-5xl">
-            Split with friends. Settle without the maths.
+            Split with friends, Settle without the math
           </h2>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
             Create a group, add shared expenses, and SmartSpend works out the
             fewest payments needed to clear every debt. Optional income-based
-            splitting keeps things fair when budgets differ.
+            splitting keeps things fair when budgets differ
           </p>
           <ul className="mt-7 space-y-3 text-mist">
             {[

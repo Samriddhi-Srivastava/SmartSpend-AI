@@ -1,45 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Wallet,
-  Users,
-  LineChart,
-  Repeat,
-  ScanLine,
-  Bell,
-} from "lucide-react";
+import { Wallet, Users, LineChart, Repeat, ScanLine, Bell } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
 
 const features = [
   {
     icon: Wallet,
     title: "Effortless expense tracking",
-    desc: "Log spending in seconds with categories, notes, and receipts. Recurring bills are detected and added for you.",
+    desc: "Log spending in seconds with categories, notes, and receipts. Recurring bills are detected and added for you",
     span: "md:col-span-3",
   },
   {
     icon: LineChart,
     title: "Analytics that explain",
-    desc: "Weekly, monthly and yearly breakdowns with overspending alerts and spending heatmaps.",
+    desc: "Weekly, monthly and yearly breakdowns with overspending alerts and spending heatmaps",
     span: "md:col-span-3",
   },
   {
     icon: Users,
     title: "Smarter group splits",
-    desc: "Split bills with friends, track who owes what, and settle up with optimised, fewest-transaction payouts.",
+    desc: "Split bills with friends, track who owes what, and settle up with optimised, fewest-transaction payouts",
     span: "md:col-span-2",
   },
   {
     icon: ScanLine,
     title: "Auto-categorisation",
-    desc: "Every transaction sorts itself into the right bucket — no manual tagging.",
+    desc: "Every transaction sorts itself into the right bucket — no manual tagging",
     span: "md:col-span-2",
   },
   {
     icon: Bell,
     title: "Bills, never missed",
-    desc: "Upcoming payments surface before they're due, so late fees stop happening.",
+    desc: "Upcoming payments surface before they're due, so late fees stop happening",
     span: "md:col-span-2",
   },
 ];
@@ -53,7 +46,7 @@ export default function Features() {
             One place for everything
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-mist sm:text-5xl">
-            Replace five disconnected apps with one calm system.
+            Replace five disconnected apps with one calm system
           </h2>
         </Reveal>
 

@@ -13,9 +13,9 @@ export default function Philosophy() {
             The difference
           </p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-mist sm:text-5xl">
-            Most apps show you numbers.
+            Most apps show you numbers
             <br />
-            <span className="text-muted">We tell you what they mean.</span>
+            <span className="text-muted">We tell you what they mean</span>
           </h2>
         </Reveal>
 
@@ -33,7 +33,7 @@ export default function Philosophy() {
                 ₹5,000
               </p>
               <p className="mt-4 text-sm text-muted">
-                Data, with no direction. You&apos;re left to figure out the rest.
+                Data, with no direction. You&apos;re left to figure out the rest
               </p>
             </div>
           </Reveal>
@@ -59,8 +59,8 @@ export default function Philosophy() {
               </p>
               <p className="mt-3 text-lg leading-relaxed text-muted">
                 Reducing dining by just 15% would save you about{" "}
-                <b className="font-mono text-sage">₹1,200</b> — enough to cover a
-                month of your phone bill.
+                <b className="font-mono text-sage">₹1,200</b> — enough to cover
+                a month of your phone bill
               </p>
             </div>
           </Reveal>

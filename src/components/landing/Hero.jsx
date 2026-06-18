@@ -1,7 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 import { ArrowRight, TrendingUp, Sparkles } from "lucide-react";
 import Counter from "@/components/ui/Counter";
 
@@ -17,7 +22,10 @@ export default function Hero() {
   const yText = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 40]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden pt-36 pb-24 sm:pt-44">
+    <section
+      ref={ref}
+      className="relative overflow-hidden pt-36 pb-24 sm:pt-44"
+    >
       {/* ambient gradient orbs */}
       <div className="orb left-[-10%] top-[2%] h-[420px] w-[420px] bg-sage/25" />
       <div className="orb right-[-8%] top-[18%] h-[360px] w-[360px] bg-amber/15 [animation-delay:3s]" />
@@ -39,12 +47,16 @@ export default function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.7,
+              delay: 0.08,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="mt-6 font-display text-5xl font-extrabold leading-[1.04] tracking-tight text-mist sm:text-6xl"
           >
             Your money,
             <br />
-            <span className="text-gradient">finally understood.</span>
+            <span className="text-gradient">finally understood</span>
           </motion.h1>
 
           <motion.p
@@ -55,7 +67,7 @@ export default function Hero() {
           >
             SmartSpend AI tracks every rupee, reads your spending habits, and
             tells you exactly what to do next — like a finance team that fits in
-            your pocket.
+            your pocket
           </motion.p>
 
           <motion.div
@@ -97,7 +109,10 @@ export default function Hero() {
         </motion.div>
 
         {/* ---- Right: visual cluster ---- */}
-        <motion.div style={{ y: yVisual }} className="relative mx-auto w-full max-w-md">
+        <motion.div
+          style={{ y: yVisual }}
+          className="relative mx-auto w-full max-w-md"
+        >
           {/* main dashboard card */}
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.96 }}
@@ -124,7 +139,11 @@ export default function Hero() {
                   key={i}
                   initial={{ height: 0 }}
                   animate={{ height: `${h}%` }}
-                  transition={{ duration: 0.7, delay: 0.5 + i * 0.07, ease: "easeOut" }}
+                  transition={{
+                    duration: 0.7,
+                    delay: 0.5 + i * 0.07,
+                    ease: "easeOut",
+                  }}
                   className={`flex-1 rounded-t-md ${
                     i === 5 ? "bg-sage" : "bg-white/10"
                   }`}
@@ -144,7 +163,11 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 24, x: 10 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.9,
+              delay: 0.55,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="glass float-slow float-delay absolute -bottom-10 -left-6 z-20 w-[78%] rounded-2xl border-amber/20 bg-amber/[0.06] p-4 shadow-card"
           >
             <div className="flex items-center gap-2 text-amber">

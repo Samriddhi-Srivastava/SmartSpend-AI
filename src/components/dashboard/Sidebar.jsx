@@ -102,14 +102,14 @@ export default function DashboardSidebar({ open, setOpen }) {
         {/* Logo / Header */}
         <div className="h-16 border-b border-line flex items-center justify-between px-4 sticky top-0 bg-ink-soft/50 backdrop-blur">
           {open && (
-            <div className="flex items-center gap-2">
+            <a href="/dashboard" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-sage flex items-center justify-center text-ink font-bold">
                 <Sparkles size={16} />
               </div>
               <span className="font-display font-bold text-mist text-sm">
                 SmartSpend
               </span>
-            </div>
+            </a>
           )}
           <button
             onClick={() => setOpen(!open)}

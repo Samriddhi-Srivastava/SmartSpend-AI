@@ -30,8 +30,8 @@ export default function CTA() {
             Ready to take control?
           </h2>
           <p className="text-lg text-muted dark:text-slate-400 max-w-2xl mx-auto mb-10">
-            Join thousands of students and young professionals who are already
-            making smarter financial decisions with SmartSpend AI.
+            For students and young professionals who want to make smarter
+            financial decisions with SmartSpend AI
           </p>
 
           <button
@@ -46,7 +46,7 @@ export default function CTA() {
           </button>
 
           <p className="text-sm text-muted dark:text-slate-400 mt-6">
-            No credit card required. Start tracking today.
+            No credit card required ⋅ Start tracking today
           </p>
         </div>
       </Reveal>
