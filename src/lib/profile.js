@@ -62,3 +62,37 @@ export async function uploadProfilePicture(userId, file) {
   const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
   return data.publicUrl;
 }
+
+export async function getNotificationPreferences(userId) {
+  const profile = await getProfile(userId);
+  return profile?.notification_preferences || {
+    expenseReminders: true,
+    budgetAlerts: true,
+    weeklyReport: true,
+    aiInsights: true,
+    settleReminders: true,
+    emailUpdates: false,
+  };
+}
+
+export async function updateNotificationPreferences(userId, preferences) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ notification_preferences: preferences })
+    .eq("user_id", userId)
+    .select();
+
+  if (error) throw error;
+  return data?.[0];
+}
+
+export async function updateCurrency(userId, currency) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ currency })
+    .eq("user_id", userId)
+    .select();
+
+  if (error) throw error;
+  return data?.[0];
+}

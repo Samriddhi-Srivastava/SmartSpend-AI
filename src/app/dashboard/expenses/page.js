@@ -72,6 +72,16 @@ export default function ExpensesPage() {
         // Add new expense
         const newExpense = await addExpense(session.user.email, expenseData);
         setExpenses([newExpense, ...expenses]);
+
+        // Fire off notifications (non-blocking)
+        fetch("/api/send-notifications", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: session.user.email,
+            expense: newExpense,
+          }),
+        }).catch((err) => console.error("Notification fetch failed:", err));
       }
       setIsFormOpen(false);
       setError(null);

@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import ThemeToggle from "./ThemeToggle";
 import ProfileModal from "./ProfileModal";
 import Image from "next/image";
+import NotificationDropdown from "./NotificationDropdown";
 
 /**
  * Dashboard Navbar
@@ -46,11 +47,8 @@ export default function DashboardNavbar({ toggleSidebar }) {
 
         {/* Right: Notifications + Theme + Avatar */}
         <div className="flex items-center gap-4">
-          {/* Notifications */}
-          <button className="relative p-2 hover:bg-white/5 dark:hover:bg-slate-700 rounded-lg transition">
-            <Bell size={20} className="text-muted dark:text-slate-400" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-sage rounded-full" />
-          </button>
+          {/* Notifications Dropdown */}
+          <NotificationDropdown />
 
           {/* Theme Toggle */}
           <ThemeToggle />

@@ -1,4 +1,7 @@
 import { supabase } from "./supabase";
+import { getProfile } from "./profile";
+import { sendExpenseReminderEmail, sendBudgetAlertEmail } from "./email";
+import { getBudgets, checkBudgetThreshold } from "./budgets";
 
 /**
  * Get all expenses for the current user
@@ -19,6 +22,7 @@ export async function getExpenses(userId) {
 /**
  * Add a new expense
  */
+
 export async function addExpense(userId, expense) {
   if (!userId) throw new Error("User ID is required");
 
@@ -37,9 +41,9 @@ export async function addExpense(userId, expense) {
     .select();
 
   if (error) throw error;
+
   return data?.[0];
 }
-
 /**
  * Update an existing expense
  */

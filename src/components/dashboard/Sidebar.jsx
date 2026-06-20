@@ -14,6 +14,7 @@ import {
   ChevronRight,
   LogOut,
   Sparkles,
+  Target,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -56,6 +57,12 @@ const navigationItems = [
     href: "/dashboard/analytics",
     icon: TrendingUp,
     description: "Insights",
+  },
+  {
+    label: "Budgets",
+    href: "/dashboard/budgets",
+    icon: Target,
+    description: "Set limits",
   },
   {
     label: "Groups",
